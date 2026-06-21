@@ -13,6 +13,7 @@ function buildWhatsAppText(menu, personas, dias) {
   })
 
   lineas.push('Generado con Alacena Inteligente FIFO — cero desperdicio, cero estrés.')
+  lineas.push(window.location.origin)
   return lineas.join('\n')
 }
 

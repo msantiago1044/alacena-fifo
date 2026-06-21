@@ -19,7 +19,7 @@ import mockMenu from './data/mockMenu.json'
 // interfaz sin gastar peticiones reales a la IA (GLM-4.6V-Flash de
 // Z.ai). Cuando estés listo para producción, cambia esto a false.
 // ──────────────────────────────────────────────────────────────
-const DEMO_MODE = true
+const DEMO_MODE = false
 
 const STEPS = {
   FORM: 'form',
