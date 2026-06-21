@@ -11,6 +11,8 @@ import ErrorBanner from './components/ErrorBanner'
 import LegendGuide from './components/LegendGuide'
 import AdjustPlanPanel from './components/AdjustPlanPanel'
 import { useMenuStorage } from './hooks/useMenuStorage'
+import { getMealKeys } from './utils/mealPlan'
+import { scaleMeal } from './utils/scaleNutrition'
 import mockMenu from './data/mockMenu.json'
 
 // ──────────────────────────────────────────────────────────────
@@ -36,11 +38,15 @@ export default function App() {
   const [compressedImage, setCompressedImage] = useState(null)
   const [personas, setPersonas] = useState(2)
   const [dias, setDias] = useState(3)
+  const [numComidas, setNumComidas] = useState(2)
+  const [caloriasObjetivo, setCaloriasObjetivo] = useState('')
   const [menu, setMenu] = useState(null)
   const [error, setError] = useState(null)
   const [isRegenerating, setIsRegenerating] = useState(false)
 
   const { saveMenu, clearMenu } = useMenuStorage()
+
+  const mealKeys = getMealKeys(numComidas)
 
   async function handleGenerate() {
     if (!compressedImage) {
@@ -58,11 +64,16 @@ export default function App() {
         await simulateNetworkDelay()
         // Generamos exactamente la cantidad de días pedida ciclando el mock
         // si el usuario pide más días de los que mockMenu.json contiene.
+        // Además, recortamos cada día a solo las comidas seleccionadas.
         data = {
-          menu: Array.from({ length: dias }, (_, i) => ({
-            ...mockMenu.menu[i % mockMenu.menu.length],
-            dia: i + 1
-          }))
+          menu: Array.from({ length: dias }, (_, i) => {
+            const diaMock = mockMenu.menu[i % mockMenu.menu.length]
+            const diaFiltrado = { dia: i + 1 }
+            mealKeys.forEach((key) => {
+              if (diaMock[key]) diaFiltrado[key] = diaMock[key]
+            })
+            return diaFiltrado
+          })
         }
       } else {
         const response = await fetch('/api/generate-menu.js', {
@@ -72,7 +83,9 @@ export default function App() {
             imageBase64: compressedImage.base64,
             mimeType: compressedImage.mimeType,
             personas,
-            dias
+            dias,
+            numComidas,
+            caloriasObjetivo: caloriasObjetivo || null
           })
         })
 
@@ -85,7 +98,7 @@ export default function App() {
       }
 
       setMenu(data.menu)
-      saveMenu(data, { personas, dias })
+      saveMenu(data, { personas, dias, numComidas, caloriasObjetivo })
       setStep(STEPS.RESULT)
     } catch (err) {
       console.error(err)
@@ -107,6 +120,22 @@ export default function App() {
     setError(null)
     clearMenu()
     setStep(STEPS.FORM)
+  }
+
+  // Reescala (en el cliente, de forma proporcional) una comida específica
+  // de un día específico cuando el usuario ajusta sus calorías objetivo.
+  function handleMealCaloriasChange(diaNum, mealKey, nuevasCalorias) {
+    setMenu((prevMenu) =>
+      prevMenu.map((d) => {
+        if (d.dia !== diaNum) return d
+        const comidaActual = d[mealKey]
+        if (!comidaActual) return d
+        return {
+          ...d,
+          [mealKey]: scaleMeal(comidaActual, nuevasCalorias)
+        }
+      })
+    )
   }
 
   return (
@@ -145,8 +174,12 @@ export default function App() {
             <PlanSelectors
               personas={personas}
               dias={dias}
+              numComidas={numComidas}
+              caloriasObjetivo={caloriasObjetivo}
               onPersonasChange={setPersonas}
               onDiasChange={setDias}
+              onNumComidasChange={setNumComidas}
+              onCaloriasObjetivoChange={setCaloriasObjetivo}
             />
 
             <button
@@ -167,8 +200,12 @@ export default function App() {
             <AdjustPlanPanel
               personas={personas}
               dias={dias}
+              numComidas={numComidas}
+              caloriasObjetivo={caloriasObjetivo}
               onPersonasChange={setPersonas}
               onDiasChange={setDias}
+              onNumComidasChange={setNumComidas}
+              onCaloriasObjetivoChange={setCaloriasObjetivo}
               onRegenerate={handleRegenerate}
               isRegenerating={isRegenerating}
             />
@@ -180,9 +217,10 @@ export default function App() {
                 <DayCard
                   key={dia.dia}
                   dia={dia.dia}
-                  almuerzo={dia.almuerzo}
-                  cena={dia.cena}
+                  comidas={dia}
+                  mealKeys={mealKeys}
                   index={idx}
+                  onMealCaloriasChange={handleMealCaloriasChange}
                 />
               ))}
             </div>
@@ -191,6 +229,7 @@ export default function App() {
               menu={menu}
               personas={personas}
               dias={dias}
+              mealKeys={mealKeys}
               onReset={handleReset}
             />
           </div>

@@ -1,8 +1,20 @@
 import { useState } from 'react'
 import { SlidersHorizontal, RefreshCw } from 'lucide-react'
 import PlanSelectors from './PlanSelectors'
+import { describeMealPlan } from '../utils/mealPlan'
 
-export default function AdjustPlanPanel({ personas, dias, onPersonasChange, onDiasChange, onRegenerate, isRegenerating }) {
+export default function AdjustPlanPanel({
+  personas,
+  dias,
+  numComidas,
+  caloriasObjetivo,
+  onPersonasChange,
+  onDiasChange,
+  onNumComidasChange,
+  onCaloriasObjetivoChange,
+  onRegenerate,
+  isRegenerating
+}) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -13,11 +25,13 @@ export default function AdjustPlanPanel({ personas, dias, onPersonasChange, onDi
         className="w-full flex items-center justify-between bg-white border border-line rounded-xl px-4 py-3 hover:border-ink/25 transition-colors"
         aria-expanded={open}
       >
-        <span className="flex items-center gap-2 text-sm font-semibold text-ink">
-          <SlidersHorizontal size={16} className="text-ink/50" />
-          {personas} {personas === 1 ? 'persona' : 'personas'} · {dias} {dias === 1 ? 'día' : 'días'}
+        <span className="flex items-center gap-2 text-sm font-semibold text-ink text-left">
+          <SlidersHorizontal size={16} className="text-ink/50 shrink-0" />
+          <span>
+            {personas} {personas === 1 ? 'persona' : 'personas'} · {dias} {dias === 1 ? 'día' : 'días'} · {describeMealPlan(numComidas)}
+          </span>
         </span>
-        <span className="text-xs font-medium text-fresh">
+        <span className="text-xs font-medium text-fresh shrink-0 ml-2">
           {open ? 'Cerrar' : 'Cambiar'}
         </span>
       </button>
@@ -31,8 +45,12 @@ export default function AdjustPlanPanel({ personas, dias, onPersonasChange, onDi
           <PlanSelectors
             personas={personas}
             dias={dias}
+            numComidas={numComidas}
+            caloriasObjetivo={caloriasObjetivo}
             onPersonasChange={onPersonasChange}
             onDiasChange={onDiasChange}
+            onNumComidasChange={onNumComidasChange}
+            onCaloriasObjetivoChange={onCaloriasObjetivoChange}
           />
 
           <button

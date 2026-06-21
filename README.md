@@ -22,6 +22,33 @@ vencerse, lo primero en cocinarse).
 
 ---
 
+## 1.1 Cantidades, comidas y nutrición
+
+- **Cantidades reales:** la IA lee la cantidad o peso de cada producto del
+  ticket. Si el ticket no especifica cantidad, la estima a partir del precio
+  pagado y el tipo de producto.
+- **Comidas por día (1 a 5):** el usuario eligen cuántas comidas quiere por
+  día, con este mapeo fijo:
+  | numComidas | Comidas incluidas |
+  |---|---|
+  | 1 | Almuerzo |
+  | 2 | Almuerzo, Cena |
+  | 3 | Desayuno, Almuerzo, Cena |
+  | 4 | Desayuno, Media mañana, Almuerzo, Cena |
+  | 5 | Desayuno, Media mañana, Almuerzo, Media tarde, Cena |
+- **Macros y calorías:** cada comida trae `calorias`, `proteina_g`,
+  `carbohidratos_g` y `grasas_g` estimados según sus ingredientes.
+- **Meta calórica opcional:** el usuario puede indicar una meta de calorías
+  por comida antes de generar el menú; la IA intenta acercarse a esa meta
+  ajustando las cantidades.
+- **Ajuste fino por plato:** una vez generado el menú, cada comida tiene
+  botones `−` / `+` junto a sus calorías. Al cambiarlas, el cliente
+  **recalcula al instante** (regla de tres proporcional, sin volver a llamar
+  a la IA) tanto las cantidades de ingredientes como los 4 macros de esa
+  comida específica. Ver `src/utils/scaleNutrition.js`.
+
+---
+
 ## 2. Estructura del proyecto
 
 ```

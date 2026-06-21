@@ -1,14 +1,28 @@
 import { MessageCircle, RotateCcw } from 'lucide-react'
+import { MEAL_LABELS } from '../utils/mealPlan'
 
-function buildWhatsAppText(menu, personas, dias) {
+const MEAL_EMOJI = {
+  desayuno: '🌅',
+  media_manana: '🍎',
+  almuerzo: '🍽️',
+  media_tarde: '☕',
+  cena: '🌙'
+}
+
+function buildWhatsAppText(menu, personas, dias, mealKeys) {
   const lineas = []
   lineas.push(`🥗 *MENÚ ALACENA FIFO* — ${personas} ${personas === 1 ? 'persona' : 'personas'} · ${dias} ${dias === 1 ? 'día' : 'días'}`)
   lineas.push('')
 
   menu.forEach((d) => {
     lineas.push(`📅 *Día ${d.dia}*`)
-    if (d.almuerzo) lineas.push(`🍽️ Almuerzo: ${d.almuerzo.plato}`)
-    if (d.cena) lineas.push(`🌙 Cena: ${d.cena.plato}`)
+    mealKeys.forEach((key) => {
+      const comida = d[key]
+      if (!comida) return
+      const emoji = MEAL_EMOJI[key] || '•'
+      const label = MEAL_LABELS[key] || key
+      lineas.push(`${emoji} ${label}: ${comida.plato} (${comida.calorias ?? '?'} kcal)`)
+    })
     lineas.push('')
   })
 
@@ -17,9 +31,9 @@ function buildWhatsAppText(menu, personas, dias) {
   return lineas.join('\n')
 }
 
-export default function ShareActions({ menu, personas, dias, onReset }) {
+export default function ShareActions({ menu, personas, dias, mealKeys, onReset }) {
   function handleShare() {
-    const text = buildWhatsAppText(menu, personas, dias)
+    const text = buildWhatsAppText(menu, personas, dias, mealKeys)
     const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`
     window.open(url, '_blank', 'noopener,noreferrer')
   }

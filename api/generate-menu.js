@@ -5,19 +5,73 @@
 // (gratuito, no solo crédito de prueba). La ZAI_API_KEY vive exclusivamente
 // en las variables de entorno de Vercel y nunca se expone al cliente.
 //
-// El frontend envía: { imageBase64, mimeType, personas, dias }
-// Esta función responde con: { menu: [ { dia, almuerzo, cena }, ... ] }
+// El frontend envía: { imageBase64, mimeType, personas, dias, numComidas, caloriasObjetivo }
+// Esta función responde con: { menu: [ { dia, desayuno?, media_manana?, almuerzo, media_tarde?, cena? }, ... ] }
+//
+// Cada comida tiene la forma:
+// {
+//   "plato": "...",
+//   "ingredientes": [ { "nombre": "...", "cantidad": 250, "unidad": "g" }, ... ],
+//   "calorias": 520,
+//   "proteina_g": 42,
+//   "carbohidratos_g": 35,
+//   "grasas_g": 18
+// }
 
 const ZAI_MODEL = 'glm-4.6v-flash'
 const ZAI_URL = 'https://api.z.ai/api/paas/v4/chat/completions'
 
-function buildSystemPrompt(personas, dias) {
-  return `Eres un Chef experto en economía doméstica y el principio de Baja Entropía (desperdicio cero). Analiza los alimentos de esta factura. Tu objetivo es armar un plan de almuerzos y cenas para ${personas} personas durante ${dias} días.
-REGLA FIFO OBLIGATORIA: Debes gastar primero los alimentos altamente perecederos (carnes frescas, verduras de hoja, lácteos, pescados) en los días 1, 2 y 3. Los alimentos secos o enlatados déjalos para los días finales.
-Tu respuesta DEBE ser EXCLUSIVAMENTE un objeto JSON válido con esta estructura exacta, sin texto en markdown antes ni después:
+// Mapa fijo de qué comidas incluir según cuántas se seleccionaron (1 a 5).
+const MEAL_KEYS_BY_COUNT = {
+  1: ['almuerzo'],
+  2: ['almuerzo', 'cena'],
+  3: ['desayuno', 'almuerzo', 'cena'],
+  4: ['desayuno', 'media_manana', 'almuerzo', 'cena'],
+  5: ['desayuno', 'media_manana', 'almuerzo', 'media_tarde', 'cena']
+}
+
+const MEAL_LABELS = {
+  desayuno: 'Desayuno',
+  media_manana: 'Media mañana',
+  almuerzo: 'Almuerzo',
+  media_tarde: 'Media tarde',
+  cena: 'Cena'
+}
+
+function buildSystemPrompt(personas, dias, mealKeys, caloriasObjetivo) {
+  const mealList = mealKeys.map((k) => MEAL_LABELS[k]).join(', ')
+
+  const exampleMealKey = mealKeys[0]
+  const exampleJsonMeal = `"${exampleMealKey}": { "plato": "...", "ingredientes": [ { "nombre": "...", "cantidad": 250, "unidad": "g" } ], "calorias": 520, "proteina_g": 42, "carbohidratos_g": 35, "grasas_g": 18 }`
+  const otherKeysExample = mealKeys
+    .slice(1)
+    .map((k) => `"${k}": { ... misma estructura ... }`)
+    .join(', ')
+
+  return `Eres un Chef y nutricionista experto en economía doméstica y el principio de Baja Entropía (desperdicio cero). Analiza los alimentos de esta factura/ticket de supermercado con mucho cuidado.
+
+PASO 1 — LECTURA DE CANTIDADES (muy importante):
+Para cada producto del ticket, identifica la cantidad o peso comprado (ej: "2 kg", "500 g", "x6 unidades", "1 lt"). Si el ticket NO especifica la cantidad o peso, ESTÍMALA a partir del precio pagado y el tipo de producto (usa tu conocimiento de precios típicos de supermercado para inferir un peso o cantidad de unidades razonable). Nunca dejes una cantidad en blanco: siempre da un número, aunque sea estimado.
+
+PASO 2 — PLAN DE COMIDAS:
+Arma un plan para ${personas} personas durante ${dias} días, incluyendo estas comidas cada día: ${mealList}.
+
+REGLA FIFO OBLIGATORIA: Gasta primero los alimentos altamente perecederos (carnes frescas, verduras de hoja, lácteos, pescados) en los días 1, 2 y 3. Los alimentos secos o enlatados déjalos para los días finales.
+
+REGLA DE CANTIDADES REALES: Las cantidades de "ingredientes" en cada comida deben ser una porción coherente extraída del total comprado, ajustada a ${personas} personas, repartida de forma sensata entre todas las comidas del plan a lo largo de los ${dias} días (no debes usar más de lo que efectivamente se compró en el ticket, salvo para condimentos básicos como sal, aceite o especias que asumes que ya existen en la alacena).
+
+PASO 3 — NUTRICIÓN:
+Para cada comida, calcula valores nutricionales aproximados pero realistas según las cantidades de ingredientes de esa comida específica:
+- "calorias": calorías totales de la comida (número entero)
+- "proteina_g": gramos de proteína (número)
+- "carbohidratos_g": gramos de carbohidratos (número)
+- "grasas_g": gramos de grasa (número)
+${caloriasObjetivo ? `\nMETA CALÓRICA: intenta que cada comida individual se acerque a aproximadamente ${caloriasObjetivo} kcal (ajusta las cantidades de ingredientes de cada comida para acercarte a esa meta, mientras mantienes el plato sensato).` : ''}
+
+Tu respuesta DEBE ser EXCLUSIVAMENTE un objeto JSON válido con esta estructura exacta, sin texto en markdown antes ni después, sin explicaciones adicionales:
 {
 "menu": [
-{ "dia": 1, "almuerzo": { "plato": "...", "ingredientes_clave": ["..."] }, "cena": { "plato": "...", "ingredientes_clave": ["..."] } }
+{ "dia": 1, ${exampleJsonMeal}${otherKeysExample ? ', ' + otherKeysExample : ''} }
 ]
 }`
 }
@@ -59,7 +113,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { imageBase64, mimeType, personas, dias } = req.body || {}
+    const { imageBase64, mimeType, personas, dias, numComidas, caloriasObjetivo } = req.body || {}
 
     if (!imageBase64 || !mimeType) {
       return res.status(400).json({ error: 'Falta la imagen del ticket (imageBase64 / mimeType).' })
@@ -67,6 +121,9 @@ export default async function handler(req, res) {
 
     const numPersonas = Number(personas) || 2
     const numDias = Number(dias) || 3
+    const numMealsRaw = Number(numComidas) || 2
+    const numMeals = Math.min(5, Math.max(1, numMealsRaw))
+    const calMeta = caloriasObjetivo ? Number(caloriasObjetivo) : null
 
     if (numPersonas < 1 || numPersonas > 20) {
       return res.status(400).json({ error: 'El número de personas debe estar entre 1 y 20.' })
@@ -75,7 +132,8 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Los días a planificar deben estar entre 1 y 14.' })
     }
 
-    const systemPrompt = buildSystemPrompt(numPersonas, numDias)
+    const mealKeys = MEAL_KEYS_BY_COUNT[numMeals]
+    const systemPrompt = buildSystemPrompt(numPersonas, numDias, mealKeys, calMeta)
 
     // GLM-4.6V-Flash usa el formato OpenAI-compatible: image_url con data URI base64.
     const zaiPayload = {

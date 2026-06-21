@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { HelpCircle, X } from 'lucide-react'
+import { HelpCircle, X, Beef, Wheat, Droplet, Flame } from 'lucide-react'
 
 const NIVELES = [
   {
@@ -23,6 +23,12 @@ const NIVELES = [
     rango: 'Días 5 en adelante',
     explicacion: 'Enlatados, pastas, arroz y granos. No se dañan rápido, así que quedan para el final del plan.'
   }
+]
+
+const MACROS = [
+  { icon: <Beef size={14} className="text-fresh" />, label: 'Proteína (prot)', explicacion: 'Construye y repara músculo. Carnes, huevos, lácteos y legumbres son las fuentes principales.' },
+  { icon: <Wheat size={14} className="text-amber" />, label: 'Carbohidratos (carb)', explicacion: 'La energía principal del cuerpo. Arroz, pasta, pan, papa y frutas.' },
+  { icon: <Droplet size={14} className="text-pantry" />, label: 'Grasas', explicacion: 'Energía de reserva y absorción de vitaminas. Aceites, frutos secos, lácteos enteros.' }
 ]
 
 export default function LegendGuide() {
@@ -72,6 +78,42 @@ export default function LegendGuide() {
                 </div>
               </div>
             ))}
+          </div>
+
+          <div className="h-px bg-line my-4" />
+
+          <p className="text-sm font-display font-semibold text-ink mb-3">
+            Ingredientes, macros y calorías
+          </p>
+          <p className="text-sm text-ink/65 mb-3 leading-snug">
+            Cada comida lista las cantidades reales estimadas a partir de tu
+            ticket (por ejemplo "250 g pechuga de pollo"), no solo el nombre
+            del ingrediente.
+          </p>
+
+          <div className="space-y-2.5 mb-3">
+            {MACROS.map((m) => (
+              <div key={m.label} className="flex items-start gap-2.5">
+                <span className="mt-0.5">{m.icon}</span>
+                <div>
+                  <p className="text-sm font-semibold text-ink/80">{m.label}</p>
+                  <p className="text-[13px] text-ink/55 leading-snug">{m.explicacion}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex items-start gap-2.5">
+            <Flame size={14} className="text-amber mt-0.5" />
+            <div>
+              <p className="text-sm font-semibold text-ink/80">Calorías ajustables</p>
+              <p className="text-[13px] text-ink/55 leading-snug">
+                Usa los botones <strong>−</strong> / <strong>+</strong> junto a las
+                "kcal" de cualquier comida para subir o bajar su meta calórica.
+                Las cantidades de ingredientes y los macros se recalculan al
+                instante, de forma proporcional.
+              </p>
+            </div>
           </div>
         </div>
       )}

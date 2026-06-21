@@ -2,79 +2,420 @@
   "menu": [
     {
       "dia": 1,
+      "desayuno": {
+        "plato": "Yogur natural con avena y manzana",
+        "ingredientes": [
+          { "nombre": "yogur natural", "cantidad": 150, "unidad": "g" },
+          { "nombre": "avena", "cantidad": 40, "unidad": "g" },
+          { "nombre": "manzana", "cantidad": 1, "unidad": "unidad" }
+        ],
+        "calorias": 310,
+        "proteina_g": 14,
+        "carbohidratos_g": 48,
+        "grasas_g": 7
+      },
+      "media_manana": {
+        "plato": "Puñado de almendras y mandarina",
+        "ingredientes": [
+          { "nombre": "almendras", "cantidad": 20, "unidad": "g" },
+          { "nombre": "mandarina", "cantidad": 1, "unidad": "unidad" }
+        ],
+        "calorias": 160,
+        "proteina_g": 5,
+        "carbohidratos_g": 14,
+        "grasas_g": 10
+      },
       "almuerzo": {
         "plato": "Pechuga de pollo a la plancha con ensalada de espinaca fresca",
-        "ingredientes_clave": ["pechuga de pollo", "espinaca", "tomate"]
+        "ingredientes": [
+          { "nombre": "pechuga de pollo", "cantidad": 250, "unidad": "g" },
+          { "nombre": "espinaca", "cantidad": 100, "unidad": "g" },
+          { "nombre": "tomate", "cantidad": 80, "unidad": "g" },
+          { "nombre": "aceite de oliva", "cantidad": 10, "unidad": "ml" }
+        ],
+        "calorias": 520,
+        "proteina_g": 46,
+        "carbohidratos_g": 12,
+        "grasas_g": 28
+      },
+      "media_tarde": {
+        "plato": "Tostada integral con queso fresco",
+        "ingredientes": [
+          { "nombre": "pan integral", "cantidad": 1, "unidad": "unidad" },
+          { "nombre": "queso fresco", "cantidad": 40, "unidad": "g" }
+        ],
+        "calorias": 220,
+        "proteina_g": 10,
+        "carbohidratos_g": 24,
+        "grasas_g": 8
       },
       "cena": {
         "plato": "Salmón al horno con calabacín salteado",
-        "ingredientes_clave": ["salmón", "calabacín", "limón"]
+        "ingredientes": [
+          { "nombre": "salmón", "cantidad": 200, "unidad": "g" },
+          { "nombre": "calabacín", "cantidad": 150, "unidad": "g" },
+          { "nombre": "limón", "cantidad": 0.5, "unidad": "unidad" }
+        ],
+        "calorias": 430,
+        "proteina_g": 38,
+        "carbohidratos_g": 8,
+        "grasas_g": 26
       }
     },
     {
       "dia": 2,
+      "desayuno": {
+        "plato": "Huevos revueltos con pan integral",
+        "ingredientes": [
+          { "nombre": "huevos", "cantidad": 2, "unidad": "unidad" },
+          { "nombre": "pan integral", "cantidad": 1, "unidad": "unidad" }
+        ],
+        "calorias": 340,
+        "proteina_g": 19,
+        "carbohidratos_g": 26,
+        "grasas_g": 17
+      },
+      "media_manana": {
+        "plato": "Yogur natural con miel",
+        "ingredientes": [
+          { "nombre": "yogur natural", "cantidad": 120, "unidad": "g" },
+          { "nombre": "miel", "cantidad": 10, "unidad": "g" }
+        ],
+        "calorias": 150,
+        "proteina_g": 7,
+        "carbohidratos_g": 20,
+        "grasas_g": 4
+      },
       "almuerzo": {
         "plato": "Wrap de pollo con yogur natural y lechuga",
-        "ingredientes_clave": ["pollo", "yogur natural", "lechuga"]
+        "ingredientes": [
+          { "nombre": "pollo", "cantidad": 180, "unidad": "g" },
+          { "nombre": "yogur natural", "cantidad": 50, "unidad": "g" },
+          { "nombre": "lechuga", "cantidad": 60, "unidad": "g" },
+          { "nombre": "tortilla de trigo", "cantidad": 2, "unidad": "unidad" }
+        ],
+        "calorias": 480,
+        "proteina_g": 38,
+        "carbohidratos_g": 42,
+        "grasas_g": 14
+      },
+      "media_tarde": {
+        "plato": "Fruta de temporada",
+        "ingredientes": [
+          { "nombre": "manzana", "cantidad": 1, "unidad": "unidad" }
+        ],
+        "calorias": 95,
+        "proteina_g": 0,
+        "carbohidratos_g": 25,
+        "grasas_g": 0
       },
       "cena": {
         "plato": "Tortilla de espinaca y queso fresco",
-        "ingredientes_clave": ["huevos", "espinaca", "queso fresco"]
+        "ingredientes": [
+          { "nombre": "huevos", "cantidad": 2, "unidad": "unidad" },
+          { "nombre": "espinaca", "cantidad": 80, "unidad": "g" },
+          { "nombre": "queso fresco", "cantidad": 50, "unidad": "g" }
+        ],
+        "calorias": 360,
+        "proteina_g": 26,
+        "carbohidratos_g": 6,
+        "grasas_g": 25
       }
     },
     {
       "dia": 3,
+      "desayuno": {
+        "plato": "Avena con leche y plátano",
+        "ingredientes": [
+          { "nombre": "avena", "cantidad": 40, "unidad": "g" },
+          { "nombre": "leche", "cantidad": 200, "unidad": "ml" },
+          { "nombre": "plátano", "cantidad": 1, "unidad": "unidad" }
+        ],
+        "calorias": 350,
+        "proteina_g": 12,
+        "carbohidratos_g": 58,
+        "grasas_g": 7
+      },
+      "media_manana": {
+        "plato": "Mix de frutos secos",
+        "ingredientes": [
+          { "nombre": "almendras", "cantidad": 15, "unidad": "g" },
+          { "nombre": "pasas", "cantidad": 10, "unidad": "g" }
+        ],
+        "calorias": 130,
+        "proteina_g": 4,
+        "carbohidratos_g": 10,
+        "grasas_g": 9
+      },
       "almuerzo": {
         "plato": "Arroz salteado con jamón y zanahoria",
-        "ingredientes_clave": ["arroz", "jamón", "zanahoria"]
+        "ingredientes": [
+          { "nombre": "arroz", "cantidad": 150, "unidad": "g" },
+          { "nombre": "jamón", "cantidad": 100, "unidad": "g" },
+          { "nombre": "zanahoria", "cantidad": 80, "unidad": "g" }
+        ],
+        "calorias": 510,
+        "proteina_g": 24,
+        "carbohidratos_g": 68,
+        "grasas_g": 14
+      },
+      "media_tarde": {
+        "plato": "Yogur natural con avena",
+        "ingredientes": [
+          { "nombre": "yogur natural", "cantidad": 100, "unidad": "g" },
+          { "nombre": "avena", "cantidad": 15, "unidad": "g" }
+        ],
+        "calorias": 140,
+        "proteina_g": 8,
+        "carbohidratos_g": 16,
+        "grasas_g": 4
       },
       "cena": {
         "plato": "Sopa de verduras con fideos finos",
-        "ingredientes_clave": ["zanahoria", "papa", "fideos"]
+        "ingredientes": [
+          { "nombre": "zanahoria", "cantidad": 60, "unidad": "g" },
+          { "nombre": "papa", "cantidad": 100, "unidad": "g" },
+          { "nombre": "fideos finos", "cantidad": 60, "unidad": "g" }
+        ],
+        "calorias": 290,
+        "proteina_g": 9,
+        "carbohidratos_g": 52,
+        "grasas_g": 4
       }
     },
     {
       "dia": 4,
+      "desayuno": {
+        "plato": "Tostadas con aguacate",
+        "ingredientes": [
+          { "nombre": "pan integral", "cantidad": 2, "unidad": "unidad" },
+          { "nombre": "aguacate", "cantidad": 0.5, "unidad": "unidad" }
+        ],
+        "calorias": 320,
+        "proteina_g": 9,
+        "carbohidratos_g": 34,
+        "grasas_g": 17
+      },
+      "media_manana": {
+        "plato": "Mandarina y galletas integrales",
+        "ingredientes": [
+          { "nombre": "mandarina", "cantidad": 1, "unidad": "unidad" },
+          { "nombre": "galletas integrales", "cantidad": 3, "unidad": "unidad" }
+        ],
+        "calorias": 180,
+        "proteina_g": 3,
+        "carbohidratos_g": 30,
+        "grasas_g": 5
+      },
       "almuerzo": {
         "plato": "Lentejas guisadas con chorizo",
-        "ingredientes_clave": ["lentejas", "chorizo", "cebolla"]
+        "ingredientes": [
+          { "nombre": "lentejas", "cantidad": 150, "unidad": "g" },
+          { "nombre": "chorizo", "cantidad": 80, "unidad": "g" },
+          { "nombre": "cebolla", "cantidad": 50, "unidad": "g" }
+        ],
+        "calorias": 540,
+        "proteina_g": 28,
+        "carbohidratos_g": 48,
+        "grasas_g": 24
+      },
+      "media_tarde": {
+        "plato": "Queso fresco con galletas",
+        "ingredientes": [
+          { "nombre": "queso fresco", "cantidad": 40, "unidad": "g" },
+          { "nombre": "galletas integrales", "cantidad": 4, "unidad": "unidad" }
+        ],
+        "calorias": 210,
+        "proteina_g": 9,
+        "carbohidratos_g": 22,
+        "grasas_g": 9
       },
       "cena": {
         "plato": "Puré de papa con atún en lata",
-        "ingredientes_clave": ["papa", "atún en lata", "cebolla"]
+        "ingredientes": [
+          { "nombre": "papa", "cantidad": 200, "unidad": "g" },
+          { "nombre": "atún en lata", "cantidad": 80, "unidad": "g" },
+          { "nombre": "cebolla", "cantidad": 30, "unidad": "g" }
+        ],
+        "calorias": 380,
+        "proteina_g": 22,
+        "carbohidratos_g": 44,
+        "grasas_g": 9
       }
     },
     {
       "dia": 5,
+      "desayuno": {
+        "plato": "Avena con leche en polvo",
+        "ingredientes": [
+          { "nombre": "avena", "cantidad": 40, "unidad": "g" },
+          { "nombre": "leche en polvo", "cantidad": 30, "unidad": "g" }
+        ],
+        "calorias": 300,
+        "proteina_g": 13,
+        "carbohidratos_g": 44,
+        "grasas_g": 8
+      },
+      "media_manana": {
+        "plato": "Galletas integrales",
+        "ingredientes": [
+          { "nombre": "galletas integrales", "cantidad": 4, "unidad": "unidad" }
+        ],
+        "calorias": 140,
+        "proteina_g": 2,
+        "carbohidratos_g": 22,
+        "grasas_g": 5
+      },
       "almuerzo": {
         "plato": "Pasta con salsa de tomate enlatado y atún",
-        "ingredientes_clave": ["pasta", "tomate enlatado", "atún en lata"]
+        "ingredientes": [
+          { "nombre": "pasta", "cantidad": 150, "unidad": "g" },
+          { "nombre": "tomate enlatado", "cantidad": 100, "unidad": "g" },
+          { "nombre": "atún en lata", "cantidad": 80, "unidad": "g" }
+        ],
+        "calorias": 560,
+        "proteina_g": 32,
+        "carbohidratos_g": 78,
+        "grasas_g": 10
+      },
+      "media_tarde": {
+        "plato": "Fruta de temporada",
+        "ingredientes": [
+          { "nombre": "plátano", "cantidad": 1, "unidad": "unidad" }
+        ],
+        "calorias": 105,
+        "proteina_g": 1,
+        "carbohidratos_g": 27,
+        "grasas_g": 0
       },
       "cena": {
         "plato": "Arroz blanco con frijoles enlatados",
-        "ingredientes_clave": ["arroz", "frijoles enlatados"]
+        "ingredientes": [
+          { "nombre": "arroz", "cantidad": 150, "unidad": "g" },
+          { "nombre": "frijoles enlatados", "cantidad": 120, "unidad": "g" }
+        ],
+        "calorias": 420,
+        "proteina_g": 16,
+        "carbohidratos_g": 78,
+        "grasas_g": 4
       }
     },
     {
       "dia": 6,
+      "desayuno": {
+        "plato": "Leche en polvo con galletas",
+        "ingredientes": [
+          { "nombre": "leche en polvo", "cantidad": 30, "unidad": "g" },
+          { "nombre": "galletas integrales", "cantidad": 4, "unidad": "unidad" }
+        ],
+        "calorias": 280,
+        "proteina_g": 10,
+        "carbohidratos_g": 36,
+        "grasas_g": 9
+      },
+      "media_manana": {
+        "plato": "Maíz enlatado con limón",
+        "ingredientes": [
+          { "nombre": "maíz enlatado", "cantidad": 80, "unidad": "g" },
+          { "nombre": "limón", "cantidad": 0.5, "unidad": "unidad" }
+        ],
+        "calorias": 90,
+        "proteina_g": 3,
+        "carbohidratos_g": 18,
+        "grasas_g": 1
+      },
       "almuerzo": {
         "plato": "Garbanzos guisados con arroz integral",
-        "ingredientes_clave": ["garbanzos enlatados", "arroz integral", "ajo"]
+        "ingredientes": [
+          { "nombre": "garbanzos enlatados", "cantidad": 150, "unidad": "g" },
+          { "nombre": "arroz integral", "cantidad": 120, "unidad": "g" },
+          { "nombre": "ajo", "cantidad": 5, "unidad": "g" }
+        ],
+        "calorias": 490,
+        "proteina_g": 20,
+        "carbohidratos_g": 80,
+        "grasas_g": 9
+      },
+      "media_tarde": {
+        "plato": "Tostadas con queso fresco",
+        "ingredientes": [
+          { "nombre": "pan integral", "cantidad": 1, "unidad": "unidad" },
+          { "nombre": "queso fresco", "cantidad": 30, "unidad": "g" }
+        ],
+        "calorias": 190,
+        "proteina_g": 8,
+        "carbohidratos_g": 20,
+        "grasas_g": 7
       },
       "cena": {
         "plato": "Crema de maíz enlatado con tostadas",
-        "ingredientes_clave": ["maíz enlatado", "pan", "leche en polvo"]
+        "ingredientes": [
+          { "nombre": "maíz enlatado", "cantidad": 100, "unidad": "g" },
+          { "nombre": "pan integral", "cantidad": 1, "unidad": "unidad" },
+          { "nombre": "leche en polvo", "cantidad": 20, "unidad": "g" }
+        ],
+        "calorias": 340,
+        "proteina_g": 11,
+        "carbohidratos_g": 52,
+        "grasas_g": 9
       }
     },
     {
       "dia": 7,
+      "desayuno": {
+        "plato": "Galletas con leche en polvo",
+        "ingredientes": [
+          { "nombre": "galletas integrales", "cantidad": 5, "unidad": "unidad" },
+          { "nombre": "leche en polvo", "cantidad": 30, "unidad": "g" }
+        ],
+        "calorias": 310,
+        "proteina_g": 9,
+        "carbohidratos_g": 42,
+        "grasas_g": 11
+      },
+      "media_manana": {
+        "plato": "Aceitunas",
+        "ingredientes": [
+          { "nombre": "aceitunas", "cantidad": 40, "unidad": "g" }
+        ],
+        "calorias": 80,
+        "proteina_g": 1,
+        "carbohidratos_g": 2,
+        "grasas_g": 8
+      },
       "almuerzo": {
         "plato": "Pasta seca con atún y aceitunas",
-        "ingredientes_clave": ["pasta", "atún en lata", "aceitunas"]
+        "ingredientes": [
+          { "nombre": "pasta", "cantidad": 150, "unidad": "g" },
+          { "nombre": "atún en lata", "cantidad": 80, "unidad": "g" },
+          { "nombre": "aceitunas", "cantidad": 30, "unidad": "g" }
+        ],
+        "calorias": 530,
+        "proteina_g": 30,
+        "carbohidratos_g": 70,
+        "grasas_g": 14
+      },
+      "media_tarde": {
+        "plato": "Maíz enlatado",
+        "ingredientes": [
+          { "nombre": "maíz enlatado", "cantidad": 80, "unidad": "g" }
+        ],
+        "calorias": 75,
+        "proteina_g": 2,
+        "carbohidratos_g": 16,
+        "grasas_g": 1
       },
       "cena": {
         "plato": "Arroz con huevo frito y salsa de tomate enlatada",
-        "ingredientes_clave": ["arroz", "huevos", "tomate enlatado"]
+        "ingredientes": [
+          { "nombre": "arroz", "cantidad": 150, "unidad": "g" },
+          { "nombre": "huevos", "cantidad": 2, "unidad": "unidad" },
+          { "nombre": "tomate enlatado", "cantidad": 80, "unidad": "g" }
+        ],
+        "calorias": 460,
+        "proteina_g": 18,
+        "carbohidratos_g": 64,
+        "grasas_g": 14
       }
     }
   ]

@@ -1,8 +1,10 @@
-import { Users, CalendarDays, Minus, Plus } from 'lucide-react'
+import { Users, CalendarDays, UtensilsCrossed, Flame, Minus, Plus } from 'lucide-react'
+import { describeMealPlan } from '../utils/mealPlan'
 
 const LIMITS = {
   personas: { min: 1, max: 20 },
-  dias: { min: 1, max: 14 }
+  dias: { min: 1, max: 14 },
+  numComidas: { min: 1, max: 5 }
 }
 
 function clamp(value, { min, max }) {
@@ -10,7 +12,7 @@ function clamp(value, { min, max }) {
   return Math.min(max, Math.max(min, value))
 }
 
-function NumberField({ id, label, icon, value, onChange, limits, unit, unitPlural }) {
+function NumberField({ id, label, icon, value, onChange, limits, unit, unitPlural, helperText }) {
   function step(delta) {
     onChange(clamp(value + delta, limits))
   }
@@ -73,35 +75,76 @@ function NumberField({ id, label, icon, value, onChange, limits, unit, unitPlura
       </div>
 
       <p className="text-[11px] text-ink/40 mt-1.5 text-center">
-        {value === 1 ? unit : unitPlural} · máx. {limits.max}
+        {helperText || `${value === 1 ? unit : unitPlural} · máx. ${limits.max}`}
       </p>
     </div>
   )
 }
 
-export default function PlanSelectors({ personas, dias, onPersonasChange, onDiasChange }) {
+export default function PlanSelectors({
+  personas,
+  dias,
+  numComidas,
+  caloriasObjetivo,
+  onPersonasChange,
+  onDiasChange,
+  onNumComidasChange,
+  onCaloriasObjetivoChange
+}) {
   return (
-    <div className="grid grid-cols-2 gap-3 animate-fade-up">
+    <div className="space-y-3 animate-fade-up">
+      <div className="grid grid-cols-2 gap-3">
+        <NumberField
+          id="personas"
+          label="Personas"
+          icon={<Users size={14} />}
+          value={personas}
+          onChange={onPersonasChange}
+          limits={LIMITS.personas}
+          unit="persona"
+          unitPlural="personas"
+        />
+        <NumberField
+          id="dias"
+          label="Días"
+          icon={<CalendarDays size={14} />}
+          value={dias}
+          onChange={onDiasChange}
+          limits={LIMITS.dias}
+          unit="día"
+          unitPlural="días"
+        />
+      </div>
+
       <NumberField
-        id="personas"
-        label="Personas"
-        icon={<Users size={14} />}
-        value={personas}
-        onChange={onPersonasChange}
-        limits={LIMITS.personas}
-        unit="persona"
-        unitPlural="personas"
+        id="numComidas"
+        label="Comidas al día"
+        icon={<UtensilsCrossed size={14} />}
+        value={numComidas}
+        onChange={onNumComidasChange}
+        limits={LIMITS.numComidas}
+        helperText={describeMealPlan(numComidas)}
       />
-      <NumberField
-        id="dias"
-        label="Días"
-        icon={<CalendarDays size={14} />}
-        value={dias}
-        onChange={onDiasChange}
-        limits={LIMITS.dias}
-        unit="día"
-        unitPlural="días"
-      />
+
+      <div className="bg-white rounded-xl border border-line p-4">
+        <label htmlFor="caloriasObjetivo" className="flex items-center gap-1.5 text-xs font-semibold text-ink/55 uppercase tracking-wide mb-2">
+          <Flame size={14} /> Calorías objetivo por comida (opcional)
+        </label>
+        <input
+          id="caloriasObjetivo"
+          type="number"
+          inputMode="numeric"
+          min={0}
+          step={50}
+          placeholder="Ej: 500"
+          value={caloriasObjetivo}
+          onChange={(e) => onCaloriasObjetivoChange(e.target.value === '' ? '' : Number(e.target.value))}
+          className="w-full bg-transparent font-display text-2xl font-semibold text-ink focus:outline-none placeholder:text-ink/25 placeholder:font-normal placeholder:text-base"
+        />
+        <p className="text-[11px] text-ink/40 mt-1.5">
+          Déjalo vacío si no tienes una meta calórica específica.
+        </p>
+      </div>
     </div>
   )
 }
