@@ -1,0 +1,81 @@
+{
+  "menu": [
+    {
+      "dia": 1,
+      "almuerzo": {
+        "plato": "Pechuga de pollo a la plancha con ensalada de espinaca fresca",
+        "ingredientes_clave": ["pechuga de pollo", "espinaca", "tomate"]
+      },
+      "cena": {
+        "plato": "Salmón al horno con calabacín salteado",
+        "ingredientes_clave": ["salmón", "calabacín", "limón"]
+      }
+    },
+    {
+      "dia": 2,
+      "almuerzo": {
+        "plato": "Wrap de pollo con yogur natural y lechuga",
+        "ingredientes_clave": ["pollo", "yogur natural", "lechuga"]
+      },
+      "cena": {
+        "plato": "Tortilla de espinaca y queso fresco",
+        "ingredientes_clave": ["huevos", "espinaca", "queso fresco"]
+      }
+    },
+    {
+      "dia": 3,
+      "almuerzo": {
+        "plato": "Arroz salteado con jamón y zanahoria",
+        "ingredientes_clave": ["arroz", "jamón", "zanahoria"]
+      },
+      "cena": {
+        "plato": "Sopa de verduras con fideos finos",
+        "ingredientes_clave": ["zanahoria", "papa", "fideos"]
+      }
+    },
+    {
+      "dia": 4,
+      "almuerzo": {
+        "plato": "Lentejas guisadas con chorizo",
+        "ingredientes_clave": ["lentejas", "chorizo", "cebolla"]
+      },
+      "cena": {
+        "plato": "Puré de papa con atún en lata",
+        "ingredientes_clave": ["papa", "atún en lata", "cebolla"]
+      }
+    },
+    {
+      "dia": 5,
+      "almuerzo": {
+        "plato": "Pasta con salsa de tomate enlatado y atún",
+        "ingredientes_clave": ["pasta", "tomate enlatado", "atún en lata"]
+      },
+      "cena": {
+        "plato": "Arroz blanco con frijoles enlatados",
+        "ingredientes_clave": ["arroz", "frijoles enlatados"]
+      }
+    },
+    {
+      "dia": 6,
+      "almuerzo": {
+        "plato": "Garbanzos guisados con arroz integral",
+        "ingredientes_clave": ["garbanzos enlatados", "arroz integral", "ajo"]
+      },
+      "cena": {
+        "plato": "Crema de maíz enlatado con tostadas",
+        "ingredientes_clave": ["maíz enlatado", "pan", "leche en polvo"]
+      }
+    },
+    {
+      "dia": 7,
+      "almuerzo": {
+        "plato": "Pasta seca con atún y aceitunas",
+        "ingredientes_clave": ["pasta", "atún en lata", "aceitunas"]
+      },
+      "cena": {
+        "plato": "Arroz con huevo frito y salsa de tomate enlatada",
+        "ingredientes_clave": ["arroz", "huevos", "tomate enlatado"]
+      }
+    }
+  ]
+}
