@@ -68,11 +68,11 @@ export default async function handler(req, res) {
     const numPersonas = Number(personas) || 2
     const numDias = Number(dias) || 3
 
-    if (numPersonas < 1 || numPersonas > 8) {
-      return res.status(400).json({ error: 'El número de personas debe estar entre 1 y 8.' })
+    if (numPersonas < 1 || numPersonas > 20) {
+      return res.status(400).json({ error: 'El número de personas debe estar entre 1 y 20.' })
     }
-    if (numDias < 1 || numDias > 7) {
-      return res.status(400).json({ error: 'Los días a planificar deben estar entre 1 y 7.' })
+    if (numDias < 1 || numDias > 14) {
+      return res.status(400).json({ error: 'Los días a planificar deben estar entre 1 y 14.' })
     }
 
     const systemPrompt = buildSystemPrompt(numPersonas, numDias)

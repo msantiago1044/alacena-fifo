@@ -8,6 +8,8 @@ import DayCard from './components/DayCard'
 import ShareActions from './components/ShareActions'
 import DemoBanner from './components/DemoBanner'
 import ErrorBanner from './components/ErrorBanner'
+import LegendGuide from './components/LegendGuide'
+import AdjustPlanPanel from './components/AdjustPlanPanel'
 import { useMenuStorage } from './hooks/useMenuStorage'
 import mockMenu from './data/mockMenu.json'
 
@@ -17,7 +19,7 @@ import mockMenu from './data/mockMenu.json'
 // interfaz sin gastar peticiones reales a la IA (GLM-4.6V-Flash de
 // Z.ai). Cuando estés listo para producción, cambia esto a false.
 // ──────────────────────────────────────────────────────────────
-const DEMO_MODE = false
+const DEMO_MODE = true
 
 const STEPS = {
   FORM: 'form',
@@ -36,6 +38,7 @@ export default function App() {
   const [dias, setDias] = useState(3)
   const [menu, setMenu] = useState(null)
   const [error, setError] = useState(null)
+  const [isRegenerating, setIsRegenerating] = useState(false)
 
   const { saveMenu, clearMenu } = useMenuStorage()
 
@@ -53,10 +56,13 @@ export default function App() {
 
       if (DEMO_MODE) {
         await simulateNetworkDelay()
-        // Recortamos el mock a la cantidad de días pedida para que el demo
-        // se sienta coherente con la selección del usuario.
+        // Generamos exactamente la cantidad de días pedida ciclando el mock
+        // si el usuario pide más días de los que mockMenu.json contiene.
         data = {
-          menu: mockMenu.menu.slice(0, dias)
+          menu: Array.from({ length: dias }, (_, i) => ({
+            ...mockMenu.menu[i % mockMenu.menu.length],
+            dia: i + 1
+          }))
         }
       } else {
         const response = await fetch('/api/generate-menu.js', {
@@ -85,7 +91,14 @@ export default function App() {
       console.error(err)
       setError(err.message || 'Algo salió mal generando tu menú. Intenta de nuevo.')
       setStep(STEPS.FORM)
+    } finally {
+      setIsRegenerating(false)
     }
+  }
+
+  function handleRegenerate() {
+    setIsRegenerating(true)
+    handleGenerate()
   }
 
   function handleReset() {
@@ -151,6 +164,17 @@ export default function App() {
 
         {step === STEPS.RESULT && menu && (
           <div>
+            <AdjustPlanPanel
+              personas={personas}
+              dias={dias}
+              onPersonasChange={setPersonas}
+              onDiasChange={setDias}
+              onRegenerate={handleRegenerate}
+              isRegenerating={isRegenerating}
+            />
+
+            <LegendGuide />
+
             <div className="space-y-3 mb-2">
               {menu.map((dia, idx) => (
                 <DayCard
